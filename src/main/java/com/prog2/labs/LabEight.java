@@ -23,7 +23,38 @@ public class LabEight {
 	 */
 
 	public List<Integer> rightSideView(TreeNode root) {
-		return null;
+		
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            TreeNode ct= root;
+            
+            if(ct==null){
+                return list;
+            } else{
+                while(ct.right!=null){
+                    list.add(ct.val);
+                    ct= ct.right;
+                    
+                    
+                } list.add(ct.val);
+                
+                
+                
+            }
+            
+            
+            
+            
+            
+            
+            
+            return list;
+            
+                
+                
+                
+                
+                
+                
 	}
 
 }
