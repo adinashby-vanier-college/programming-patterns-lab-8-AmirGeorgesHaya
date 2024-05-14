@@ -1,19 +1,60 @@
-name: GitHub Classroom Workflow
-
-on:
-  - push
-  - workflow_dispatch
-
+name: Autograding Tests
+'on':
+- workflow_dispatch
+- repository_dispatch
 permissions:
   checks: write
   actions: read
   contents: read
-
 jobs:
-  build:
-    name: Autograding
+  run-autograding-tests:
     runs-on: ubuntu-latest
     if: github.actor != 'github-classroom[bot]'
     steps:
-      - uses: actions/checkout@v4
-      - uses: education/autograding@v1
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: rightSideViewTest1
+      id: rightsideviewtest1
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: rightSideViewTest1
+        setup-command: gradle clean
+        command: gradle test --tests LabEightTests.rightSideViewTest1
+        timeout: 1
+        max-score: 25
+    - name: rightSideViewTest2
+      id: rightsideviewtest2
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: rightSideViewTest2
+        setup-command: ''
+        command: gradle test --tests LabEightTests.rightSideViewTest2
+        timeout: 1
+        max-score: 25
+    - name: rightSideViewTest3
+      id: rightsideviewtest3
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: rightSideViewTest3
+        setup-command: ''
+        command: gradle test --tests LabEightTests.rightSideViewTest3
+        timeout: 1
+        max-score: 25
+    - name: rightSideViewTest4
+      id: rightsideviewtest4
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: rightSideViewTest4
+        setup-command: ''
+        command: gradle test --tests LabEightTests.rightSideViewTest4
+        timeout: 1
+        max-score: 25
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        RIGHTSIDEVIEWTEST1_RESULTS: "${{steps.rightsideviewtest1.outputs.result}}"
+        RIGHTSIDEVIEWTEST2_RESULTS: "${{steps.rightsideviewtest2.outputs.result}}"
+        RIGHTSIDEVIEWTEST3_RESULTS: "${{steps.rightsideviewtest3.outputs.result}}"
+        RIGHTSIDEVIEWTEST4_RESULTS: "${{steps.rightsideviewtest4.outputs.result}}"
+      with:
+        runners: rightsideviewtest1,rightsideviewtest2,rightsideviewtest3,rightsideviewtest4
